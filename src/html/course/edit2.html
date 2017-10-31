@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学IT - 后台管理系统</title>
+    <!-- build:style -->
+	<!-- endbuild -->
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <!-- build:aside -->
+	<!-- endbuild -->
+    <!-- 主体 -->
+    <div class="main">
+        <div class="container-fluid">
+            <!-- 头部 -->
+            <!-- build:header -->
+			<!-- endbuild -->
+           <div class="body course-add" id="course-edit2">
+                <!-- 面包屑 -->
+                <ol class="breadcrumb">
+                    <li><a href="javascript:;">课程管理</a></li>
+                    <li class="active">课程添加</li>
+                </ol>
+                <!--这里是一个模板坑-->
+                </div>
+        </div>
+    </div>
+	<script type="text/template" id = "course-edit2-tml">
+		<div class="steps">
+                    <!-- 摘要 -->
+                    <!--<input type="hidden" name="cs_id" value="{{cs_id}}" />-->
+                    <div class="brief">
+                        <div class="thumb">
+                            <img src="{{cs_cover}}" alt="">
+                        </div>
+                        <dl class="info">
+                            <dt>{{cs_name}}</dt>
+                            <dd>讲师：{{tc_name}}</dd>
+                            <dd>课时：32</dd>
+                        </dl>
+                    </div>
+                    <!-- 步聚 -->
+                    <ul class="forwards list-unstyled">
+                        <li>
+                            <a href="/dist/html/course/edit1.html?cs_id={{cs_id}}" class="done">
+                            <b class="fa fa-check"></b>
+                            基本信息
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/dist/html/course/edit2.html?cs_id={{cs_id}}" class="active">
+                            <b>2</b>
+                            课程图片
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/dist/html/course/edit3.html?cs_id={{cs_id}}">
+                            <b>3</b>
+                            课时管理
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- 课程图片 -->
+                    <div class="content">
+                        <!-- 标题 -->
+                        <div class="title">
+                            <h5>课程图片 <small>COURSE PICTURE</small></h5>
+                        </div>
+                        <!-- 上传图片 -->
+                        <div class="picture col-xs-offset-2">
+                            <div class="preview">
+                                <img src="{{cs_cover_original}}" alt="">
+                            </div>
+                            <p class="tips">
+                                可上传jpg, gif, png格式文件, 图片建议尺寸大于300x150，文件大小不能超过2M。
+                            </p>
+                            <div class="col-xs-2">
+                                <a href="/dist/html/course/edit3.html?cs_id={{cs_id}}" class="btn btn-success btn-sm">选择图片</a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="javascript:;" class="btn btn-warning btn-sm" disabled>裁切图片</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+	</script>
+    <script src="/dist/js/lib.js"></script>
+	<script src="/dist/js/course/edit2.js"></script>
+	<script>
+		function getSearch(key) {
+            var searchStr = location.search.slice(1);
+            var searchArr = searchStr.split('&');
+            var searchObj = {},tempArr;
+            for (var i = 0, len = searchArr.length; i < len; i++) {
+                tempArr = searchArr[i].split('=');
+                searchObj[tempArr[0]] = tempArr[1];
+            }
+            return key ? searchObj[key] : searchObj;
+       }
+		
+        var cs_id = getSearch('cs_id');
+		$.get('/v6/course/picture',{cs_id:cs_id},function(data){
+			$("#course-edit2").append(template('course-edit2-tml',data.result));
+		})
+	</script>
+</body>
+</html>
